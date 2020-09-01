@@ -22,16 +22,20 @@ if {$::env(BOARD) eq "genesys2"} {
       add_files -fileset constrs_1 -norecurse constraints/kc705.xdc
 } elseif {$::env(BOARD) eq "vc707"} {
       add_files -fileset constrs_1 -norecurse constraints/vc707.xdc
+} elseif {$::env(BOARD) eq "vcu118"} {
+      add_files -fileset constrs_1 -norecurse constraints/vcu118.xdc
 } else {
       exit 1
 }
 
-read_ip xilinx/xlnx_mig_7_ddr3/ip/xlnx_mig_7_ddr3.xci
+#read_ip xilinx/xlnx_mig_7_ddr3/ip/xlnx_mig_7_ddr3.xci
 read_ip xilinx/xlnx_axi_clock_converter/ip/xlnx_axi_clock_converter.xci
 read_ip xilinx/xlnx_axi_dwidth_converter/ip/xlnx_axi_dwidth_converter.xci
 read_ip xilinx/xlnx_axi_gpio/ip/xlnx_axi_gpio.xci
 read_ip xilinx/xlnx_axi_quad_spi/ip/xlnx_axi_quad_spi.xci
 read_ip xilinx/xlnx_clk_gen/ip/xlnx_clk_gen.xci
+read_ip xilinx/xlnx_axi_dwidth_converter_512_64/ip/xlnx_axi_dwidth_converter_512_64.xci
+read_ip xilinx/xlnx_mig_ddr4/ip/xlnx_mig_ddr4.xci
 # read_ip xilinx/xlnx_protocol_checker/ip/xlnx_protocol_checker.xci
 
 set_property include_dirs { "src/axi_sd_bridge/include" "../src/common_cells/include" } [current_fileset]
@@ -51,6 +55,10 @@ if {$::env(BOARD) eq "genesys2"} {
 } elseif {$::env(BOARD) eq "vc707"} {
       read_verilog -sv {src/vc707.svh ../src/common_cells/include/common_cells/registers.svh}
       set file "src/vc707.svh"
+      set registers "../src/common_cells/include/common_cells/registers.svh"
+} elseif {$::env(BOARD) eq "vcu118"} {
+      read_verilog -sv {src/vcu118.svh ../src/common_cells/include/common_cells/registers.svh}
+      set file "src/vcu118.svh"
       set registers "../src/common_cells/include/common_cells/registers.svh"
 } else {
     exit 1
